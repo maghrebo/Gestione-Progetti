@@ -9,10 +9,11 @@ def aggiunta():
         if scelta == 'si':
             aggiunta = input('Che elemento della spesa vorresti aggiungere:  ')
             lista.append(aggiunta)
-            print(lista)
         elif scelta == 'no':
             print('Va bene hai scelto di no, grazie e arrivederci')
             break
         else:
             print('Hai sbagliato l\'inserimento della scelta, riprova: ')
 
+def stampa_elementi():
+    print(lista)
