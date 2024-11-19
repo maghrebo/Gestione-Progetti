@@ -26,7 +26,7 @@ def eliminazione():
             while True:
                 try:
                     scelta = int(input('Quale elemento vorresti eliminare (inserisci indice):  '))
-                    lista.pop(scelta)
+                    lista.pop(scelta - 1)
                     break
                 except:
                     print('Hai inserito un carattere diverso da un numero oppure l\'indice non è presente nella lista, riprova')
