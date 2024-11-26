@@ -14,8 +14,7 @@ app = Flask(__name__)
 #rotta principale
 @app.route('/')
 def home():
-    
-    return render_template('index.html')
+    return render_template('index.html', lista_spesa=lista_spesa)
     
     #Controllo della lista se è piena o meno e le seguenti azioni
     if len(lista_spesa) == 0 :
@@ -25,13 +24,20 @@ def home():
 
 @app.route('/aggiungi', methods=['POST'])
 #Creazione della funzione per l'aggiunta di un elemento alla lista
-def aggiungi(elemento):
+def aggiungi():
     #Si estrae la variabile dalla pagina
     elemento = request.form['elemento']
     #Si fa l'if per aggiungerlo
     if elemento:
         lista_spesa.append(elemento)
     #Reindirizzamento alla pagina principale
+    return redirect(url_for('home'))
+
+#Route l'eliminazione
+@app.route('/rimuovi/<int:indice>', methods=['POST'])
+def rimuovi(indice):
+    if 0 <= indice < len(lista_spesa):
+        lista_spesa.pop(indice)
     return redirect(url_for('home'))
 
 #avvio dell'app Flask
