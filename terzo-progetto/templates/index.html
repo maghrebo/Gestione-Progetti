@@ -1,22 +1,110 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista Spesa</title>
+        <style>
+            /* Lo stile generale fatto per il tema della pagina */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Lo stile del titolo in verde, contenente la scritta Lista Spesa */
+            h1 {
+                font-size: 2.5em;
+                color: #4CAF50;
+                margin-bottom: 20px;
+            }
+
+            /* Lo stile della lista in generale che contine tutti gli elementi */
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin: 10px 0;
+                padding: 10px 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                width: 200px; 
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+
+            /* Lo stile invece di tutti i pulsanti presenti nella pagina con cui l'utente interagisce */
+            button {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+                font-size: 0.9em;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+
+            /* Lo stile della Form Aggiungi */
+            form {
+                margin-top: 20px;
+            }
+
+            input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                margin-right: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            input[type="text"]:focus {
+                border-color: #4CAF50;
+                outline: none;
+            }
+
+            button[type="submit"] {
+                padding: 10px 15px;
+            }
+
+            /* Lo stile del Pulsante Svuota che compare solamente se ci sono elementi */
+            .svuota {
+                margin-top: 20px;
+            }
+        </style>
     </head>
     <body>
-        <h1>Lista Spesa</h1>
+        <h1>Lista Spesa</h1> 
         {% if lista_spesa %}
             <ul>
                 {% for elemento in lista_spesa %}
-                    <li>{{ elemento }}
-                        <form action="/rimuovi/{{ loop.index0 }}" method="post" style="display:inline;">
+                    <li>{{ elemento.elemento }}
+                        <form action="/rimuovi/{{ elemento.id }}" method="post" style="display:inline;">
                             <button type="submit">Rimuovi</button>
                         </form>
                     </li>
                 {% endfor %}
             </ul>
+            <form action="/svuota" method="post" class="svuota">
+                <button type="submit">Svuota Lista</button>
+            </form>
         {% else %}
             <p>La lista è vuota.</p>
         {% endif %}
@@ -26,4 +114,3 @@
         </form>
     </body>
 </html>
-
