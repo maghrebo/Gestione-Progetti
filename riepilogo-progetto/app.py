@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from models import db, Utenti
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 app = Flask(__name__)
 
@@ -20,10 +21,10 @@ bcrypt = Bcrypt(app)
 with app.app_context():
     db.create_all()
 
-# Pagina di home predefinita
-@app.route('/')
-def home():
-    return "Benvenuto nell'app di gestione utenti!"
+# Decoratore per la sessione
+login_manager = LoginManager()
+login_manager.init_app(app)  # Collega Flask-Login alla tua app Flask
+login_manager.login_view = 'login'  # Indica la route per la pagina di login
 
 # Registrazione dell'utente
 @app.route('/registrazione', methods=['GET', 'POST'])
@@ -47,8 +48,9 @@ def registrazione():
         db.session.add(nuovo_utente)
         db.session.commit()
 
+        login_user(nuovo_utente)
         flash('Registrazione avvenuta con successo!', 'success')
-        return redirect(url_for(''))
+        return redirect(url_for('home'))
 
     return render_template('registrazione.html')
 
@@ -64,14 +66,34 @@ def login():
 
         # Trova l'utente nel database
         utente = Utenti.query.filter_by(username=username).first()
-        if utente and bcrypt.check_password_hash(utente.password, password):
+        if utente and bcrypt.check_password_hash(utente.hashed_password, password):
+            login_user(utente)
             flash('Login riuscito!', 'success')  # Usa 'flash' per il messaggio di successo
-            return redirect(url_for('/'))
+            return redirect(url_for('home'))
         else:
             flash('Credenziali non valide', 'danger')  # Usa 'flash' per il messaggio di errore
-            return redirect(url_for('/'))
 
     return render_template('login.html')
+
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Utenti.query.get(int(user_id))  # Ritorna l'utente basandosi sull'ID
+
+# Pagina di home
+@app.route('/home')
+@login_required
+def home():
+    return f"Benvenuto, {current_user.username}!"
+
+# Pagina di logout c'è ancora da  fare l'html
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logout effettuato con successo!', 'info')
+    return redirect(url_for('login'))
 
 # Avvio dell'app Flask
 if __name__ == '__main__':
