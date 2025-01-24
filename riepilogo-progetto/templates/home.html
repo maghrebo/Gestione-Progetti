@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persone nello Spazio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0077b6;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            background-color: #f0f8ff;
+        }
+
+        .person-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .craft-name {
+            font-style: italic;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #0077b6;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Persone nello spazio</h1>
+    </header>
+    <main>
+        <ul>
+            {% for person in people %}
+                <li>
+                    <span class="person-name">{{ person.name }}</span>
+                    <span class="craft-name">{{ person.craft }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+    <footer>
+        <p>Dati provenienti da Open Notify API</p>
+    </footer>
+</body>
+</html>

@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, Utenti
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from utilis import persone_nello_spazio
 
 app = Flask(__name__)
 
@@ -21,6 +22,10 @@ bcrypt = Bcrypt(app)
 with app.app_context():
     db.create_all()
 
+# Pagina di home
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 # Decoratore per la sessione
 login_manager = LoginManager()
 login_manager.init_app(app)  # Collega Flask-Login alla tua app Flask
@@ -85,7 +90,8 @@ def load_user(user_id):
 @app.route('/home')
 @login_required
 def home():
-    return f"Benvenuto, {current_user.username}!"
+    people_in_space = persone_nello_spazio()
+    return render_template("home.html", people=people_in_space)
 
 # Pagina di logout c'è ancora da  fare l'html
 @app.route('/logout')
