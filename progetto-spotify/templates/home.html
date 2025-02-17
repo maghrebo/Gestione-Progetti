@@ -29,7 +29,7 @@
                     <td>
                     {% if playlist['images'] %}
                         <img src="{{ playlist['images'][0]['url'] }}" width="50" alt="Copertina playlist">
-                        <a href="{{ url_for('mostra_playlist', nome_playlist = playlist['name']) }}">
+                        <a href="{{ url_for('home.mostra_playlist', nome_playlist = playlist['name']) }}">
                             Visualizza Playlist
                         </a>
                     {% else %}
@@ -44,5 +44,5 @@
         <p>Non hai playlist disponibili.</p>
     {% endif %}
 
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
 </body>
